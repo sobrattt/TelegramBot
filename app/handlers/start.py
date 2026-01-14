@@ -6,7 +6,7 @@ from aiogram import Router
 router = Router()
 
 @router.message(Command("start"))
-async def start_handler(message: Message):
+async def start_handler(message):
     text = (
         "Bine ai venit! 👋\n"
         "Acest canal este pentru antreprenori, freelanceri și profesioniști "
