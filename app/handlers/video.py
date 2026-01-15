@@ -1,6 +1,4 @@
 from aiogram import Router, F
-from aiogram.types import CallbackQuery
-from aiogram.fsm.context import FSMContext
 
 from app.states import VideoFlow
 from app.config import VIDEO_1, VIDEO_2, VIDEO_3, VIDEO_4

@@ -1,56 +1,63 @@
+Telegram Bot System: Lead Generation & Admin Panel
 
-```markdown
-# Telegram Consultation & Content Funnel Bot
+A robust, Dockerized system consisting of two independent Telegram bots sharing a single database. Designed for marketing funnels, lead collection, and real-time administration.
+📋 Project Overview
 
-A professional Telegram bot built with **aiogram 3.x**, designed for a freelancer/entrepreneur to automate client onboarding and content delivery.
+The system architecture is split into two specialized services:
 
-## 🚀 Project Overview
-This bot was created for a friend who is launching their consulting services. It serves as an automated funnel that:
-1. Greets potential clients and introduces the expert's philosophy.
-2. Collects contact information (Phone & Name) using Telegram's native contact request.
-3. Delivers a sequential video-based educational flow using **FSM (Finite State Machine)**.
-4. Provides direct links for consultations and community access.
+    Main Bot: Client-facing interface. Handles user onboarding, contact collection (leads), and delivers marketing content.
 
-## 🛠 Tech Stack
-* **Python 3.10+**
-* **aiogram 3.x** (Asynchronous Telegram Framework)
-* **Pydantic / python-dotenv** (Configuration management)
-* **Aiohttp** (Networking)
+    System Bot: Admin-only tool. Provides instant notifications for new leads and full database access for user management.
 
-## 📂 Project Structure
-```text
-bot/
-├─ app/
-│  ├─ handlers/    # Business logic (Start, Form, Video flow)
-│  ├─ keyboards/   # Reply and Inline keyboards
-│  ├─ main.py      # Entry point
-│  └─ ...
-└─ .env            # Environment variables (Token, Video IDs)
+🛠 Tech Stack
 
-```
+    Language: Python 3.10+
 
-## 🚧 Current Status
+    Framework: Aiogram 3.x (Asynchronous Telegram Bot API)
 
-The project is currently **under active development**.
+    Database: SQLite (managed via SQLAlchemy 2.0 + aiosqlite)
 
-* [x] Core bot logic & Handlers
-* [x] FSM-based video flow
-* [x] Keyboard & Media management
-* [ ] Dockerization (In progress)
-* [ ] Database integration & VPS Deployment (In progress)
+    Infrastructure: Docker & Docker Compose
 
-## 🔧 Installation (Development)
+    Hosting: DigitalOcean Droplet (Ubuntu 24.04 LTS)
 
-1. Clone the repository:
-```bash
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+📦 System Architecture
 
-```
+    Shared Volume: Both bots are connected to the same data.db file through Docker Volumes, ensuring instant data synchronization.
 
+    High Availability: Services are isolated; an issue in the client bot will not affect the admin panel.
 
-2. Set up a virtual environment and install dependencies.
-3. Create a `.env` file based on `.env.example`.
-4. Run the bot: `python -m app.main`
+    Persistence: Data is stored on the host machine, preventing data loss during container restarts.
 
-```
+Deployment Guide
+1. Environment Configuration
 
+Create a .env file in the root directory and fill in your credentials:
+Plaintext
+
+BOT_TOKEN=your_main_bot_token
+SYSTEM_BOT_TOKEN=your_admin_bot_token
+ADMIN_ID=your_telegram_id
+
+2. Launch with Docker
+
+The entire system can be deployed with a single command:
+Bash
+
+docker compose up -d --build
+
+    up -d: Runs containers in the background.
+
+    --build: Rebuilds images to include latest code changes.
+
+3. Verification
+
+Check service status:
+Bash
+
+docker compose ps
+
+View real-time logs:
+Bash
+
+docker compose logs -f
